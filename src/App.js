@@ -16,6 +16,8 @@ const App = () => {
       <h1>Welcome to My React App</h1>
       {/* Your app's content goes here */}
       <p>This is the main application content.</p>
+
+      <h>hi</h>
     </div>
   );
 };
