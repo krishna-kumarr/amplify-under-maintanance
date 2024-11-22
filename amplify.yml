@@ -1,19 +1,32 @@
 version: 1
 frontend:
   phases:
+    # Prebuild phase: Set maintenance mode to true before build starts
     preBuild:
       commands:
         - echo "Starting build..."
+        - echo "REACT_APP_MAINTENANCE=true" >> .env  # Enable maintenance mode
+
+    # Build phase: Perform app build, using the maintenance mode setting from preBuild
     build:
       commands:
-        # Set the environment variable to enable/disable maintenance mode
-        - echo "REACT_APP_MAINTENANCE=true" >> .env  # Set maintenance mode to true
-        - npm install
-        - npm run build
+        - npm install  # Install dependencies
+        - npm run build  # Build the app
+
+    # PostBuild phase: Ensure maintenance mode is turned off after deployment
+    postBuild:
+      commands:
+        # Disable maintenance mode after the build
+        - echo "REACT_APP_MAINTENANCE=false" >> .env  # Disable maintenance mode
+        - echo "Deployment finished. Maintenance mode disabled."
+
+  # Artifacts: Specify where the built files are located
   artifacts:
     baseDirectory: build
     files:
       - '**/*'
+
+  # Cache: Define which paths to cache to improve build speed
   cache:
     paths:
       - node_modules/**/*
