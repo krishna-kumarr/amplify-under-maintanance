@@ -4,10 +4,11 @@ frontend:
     preBuild:
       commands:
         - echo "Starting build..."
-        - export REACT_APP_MAINTENANCE=true >> .env  # Set maintenance mode to true
     build:
       commands:
+        - export REACT_APP_MAINTENANCE=true >> .env  # Set maintenance mode to true
         - npm run build  # Build the app in maintenance mode
+        - cat .env  # Verify the update
     postBuild:
       commands:
         - export REACT_APP_MAINTENANCE=false >> .env  # Set maintenance mode to false
