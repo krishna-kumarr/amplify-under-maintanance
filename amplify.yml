@@ -11,6 +11,7 @@ frontend:
     build:
       commands:
         - npm install  # Install dependencies
+        - echo "REACT_APP_MAINTENANCE=false" >> .env  # Disable maintenance mode
         - npm run build  # Build the app
 
     # PostBuild phase: Ensure maintenance mode is turned off after deployment
