@@ -4,12 +4,16 @@ frontend:
     preBuild:
       commands:
         - echo "Starting build..."
-        - echo "REACT_APP_MAINTENANCE=true" > .env  # Set maintenance mode to true before build
+        - echo "REACT_APP_MAINTENANCE=true" > .env  # Set maintenance mode to true (overwrite .env)
     build:
       commands:
-        - npm run build  # Run build command after the environment variable is set
+        - npm run build
+    postBuild:
+      commands:
+        - echo "REACT_APP_MAINTENANCE=false" > .env  # Overwrite .env with maintenance=false after build
+        - cat .env  # Verify the update
   artifacts:
-    baseDirectory: build  # Specify the build output directory (for React apps, it's "build")
+    baseDirectory: build
     files:
       - '**/*'
   cache:
