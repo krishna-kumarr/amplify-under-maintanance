@@ -1,29 +1,23 @@
 version: 1
-applications:
-  - appRoot: src
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - echo "Entering Maintenance Mode"
-            - export REACT_APP_MAINTENANCE=true  # Set maintenance mode to true
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Starting build..."
+        - echo "REACT_APP_MAINTENANCE=true" >> .env  # Set maintenance mode to true
+    build:
+      commands:
+        - npm run build
+    postBuild:
+      commands:
+        - echo "REACT_APP_MAINTENANCE=false" >> .env  # Set maintenance mode to false after build
+        - cat .env  # Verify the update
+        - npm run deploy  # Run deploy command after the update
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
 
-        build:
-          commands:
-            - echo "Building the app"
-            - npm install
-            - npm run build
-
-        postBuild:
-          commands:
-            - echo "Exiting Maintenance Mode"
-            - export REACT_APP_MAINTENANCE=false  # Set maintenance mode to false after build
-
-      artifacts:
-        baseDirectory: /build  # Adjust based on your app's build directory
-        files:
-          - '**/*'
-
-      cache:
-        paths:
-          - node_modules/**/*  # Cache node_modules to speed up builds

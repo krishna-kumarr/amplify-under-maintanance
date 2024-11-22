@@ -9,6 +9,8 @@ const App = () => {
     return <MaintenancePage />;
   }
 
+  console.log(process.env.REACT_APP_MAINTENANCE)
+
   return (
     <div>
       <h1>Welcome to My React App</h1>
