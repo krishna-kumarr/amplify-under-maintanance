@@ -3,21 +3,17 @@ frontend:
   phases:
     preBuild:
       commands:
-        - echo "Starting build..."
+        - echo "Starting build in maintenance mode..."
     build:
       commands:
-        - export REACT_APP_MAINTENANCE=true >> .env  # Set maintenance mode to true
-        - npm run build  # Build the app in maintenance mode
-        - cat .env  # Verify the update
+        - npm run build:maintenance  # Build in maintenance mode
     postBuild:
       commands:
-        - export REACT_APP_MAINTENANCE=false >> .env  # Set maintenance mode to false
-        - npm run build  # Run the build again to get the normal state of your app
-        - cat .env  # Verify the update
-  artifacts:
-    baseDirectory: build
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
+        - npm run build:normal  # Set normal mode after build (but without rebuilding the app)
+artifacts:
+  baseDirectory: build
+  files:
+    - '**/*'
+cache:
+  paths:
+    - node_modules/**/*
