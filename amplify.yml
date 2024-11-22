@@ -1,0 +1,19 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Starting build..."
+    build:
+      commands:
+        # Set the environment variable to enable/disable maintenance mode
+        - echo "REACT_APP_MAINTENANCE=true" >> .env  # Set maintenance mode to true
+        - npm install
+        - npm run build
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
