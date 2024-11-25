@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
@@ -14,8 +15,12 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:maintenance": "cross-env REACT_APP_MAINTENANCE=true react-scripts build",
-    "build:normal": "cross-env REACT_APP_MAINTENANCE=false react-scripts build"
+    "prebuild": "npm run build:maintenance",
+    "postbuild": "npm run build:normal",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build:maintenance": "node src/runMaintanance.js",
+    "build:normal": "node src/stopMaintanance.js"
   },
   "eslintConfig": {
     "extends": [

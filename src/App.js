@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MaintenancePage from './pages/MaintenancePage';
+import axios from 'axios';
 
 const App = () => {
-  // Check if the maintenance mode is enabled
-  const isUnderMaintenance = process.env.REACT_APP_MAINTENANCE === 'true';
+  const [isUnderMaintanance, setIsUnderMaintanance] =useState(false);
 
-  if (isUnderMaintenance) {
+  const getMaintananceStatus = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:8000/api/v1/get_maintanance_status")
+      setIsUnderMaintanance(data?.data[0]?.under_maintanance || false)
+    } catch (Err) {
+      console.log(Err)
+    }
+  }
+
+  useEffect(() => {
+    getMaintananceStatus()
+  }, [])
+
+  if (isUnderMaintanance) {
     return <MaintenancePage />;
   }
 
-  console.log(process.env.REACT_APP_MAINTENANCE)
 
   return (
     <div>
